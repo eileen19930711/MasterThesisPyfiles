@@ -32,11 +32,16 @@ for ii in range(0,160): #,1959)
 		else:    
 			mylabel='_nolegend_'
 
-		# optimized
+		### optimized
 		ax.plot(XYZ_yhat[0:,0],XYZ_yhat[0:,1],XYZ_yhat[0:,2],c='r',label='reconstructed lines');
-		ax.text(XYZ_yhat[0,0],XYZ_yhat[0,1],XYZ_yhat[0,2]+0.2,'%d' % ii,color='b');
+		#ax.text(XYZ_yhat[-1,0],XYZ_yhat[-1,1],XYZ_yhat[-1,2]+0.2,'%d' % ii,color='b');
 
-		# projected; before optimization
+		#if XYZ_yhat[-1,2]-XYZ_yhat[0,2]>0.1:
+		#	ax.plot(XYZ_yhat[0:,0],XYZ_yhat[0:,1],XYZ_yhat[0:,2],c='k',label='reconstructed lines');
+		#	ax.text(XYZ_yhat[-1,0],XYZ_yhat[-1,1],XYZ_yhat[-1,2]+0.2,'%d' % ii,color='k');
+
+
+		### projected; before optimization
 		#ax.plot(XYZ_y[0:,0],XYZ_y[0:,1],XYZ_y[0:,2],c='k',label='DSM profile');
 
 		if XYZ_yhat[0:,0].max()	> Xmax:
