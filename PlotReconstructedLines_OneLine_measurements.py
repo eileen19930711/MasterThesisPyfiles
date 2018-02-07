@@ -56,7 +56,7 @@ ax2.set_ylim([np.min(sigma0hat),0.75])
 ax1.set_ylabel('mean [pixel]')
 ax2.set_ylabel('variance [pixel]')
 
-ax2.set_xlabel('the i$^{th}$ segment')
+ax2.set_xlabel('the i$^{th}$ node')
 
 ax2.get_xticklabels()[-1].set_visible(False)
 
@@ -139,7 +139,7 @@ ax2.set_ylim([np.min(sigma0hat),0.75])
 ax1.set_ylabel('mean [pixel]')
 ax2.set_ylabel('variance [pixel]')
 
-ax2.set_xlabel('the i$^{th}$ segment')
+ax2.set_xlabel('the i$^{th}$ node')
 
 ax2.get_xticklabels()[-1].set_visible(False)
 

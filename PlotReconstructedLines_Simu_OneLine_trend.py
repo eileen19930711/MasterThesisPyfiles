@@ -8,8 +8,6 @@ import numpy as np
 
 foldername = 'D:/4-5th semester -MasterThesisDLR/files/Analysis/Simu7_img1line14_DSM/';
 ii=0
-#foldername = 'D:/4-5th semester -MasterThesisDLR/files/Analysis/Test_img1line5/';
-#ii=4
 
 # Read Optimized lines(X,Y,Z)
 # Read Optimized lines(X,Y,Z) # original
@@ -82,17 +80,17 @@ for indx in range(num):
 	radii1 = np.sqrt(np.diag(A))
 	B = Sigmaxxhat[3:6,3:6,indx]#posterior
 	radii2 = np.sqrt(np.diag(B))
-	sigmaX_ = np.append(sigmaX_,np.sqrt(radii1[0]**2+radii2[0]**2))
-	sigmaY_ = np.append(sigmaY_,np.sqrt(radii1[1]**2+radii2[1]**2))
-	sigmaZ_ = np.append(sigmaZ_,np.sqrt(radii1[2]**2+radii2[2]**2))
+	sigmaX_ = np.append(sigmaX_,np.sqrt((radii1[0]**2+radii2[0]**2)/2))
+	sigmaY_ = np.append(sigmaY_,np.sqrt((radii1[1]**2+radii2[1]**2)/2))
+	sigmaZ_ = np.append(sigmaZ_,np.sqrt((radii1[2]**2+radii2[2]**2)/2))
 
 	A = Sigmaxx[0:3,0:3,indx]#priori
 	radii = np.sqrt(np.diag(A))
 	B = Sigmaxx[3:6,3:6,indx]#posterior
 	radii2 = np.sqrt(np.diag(B))
-	sigmaX = np.append(sigmaX,np.sqrt(radii1[0]**2+radii2[0]**2))
-	sigmaY = np.append(sigmaY,np.sqrt(radii1[1]**2+radii2[1]**2))
-	sigmaZ = np.append(sigmaZ,np.sqrt(radii1[2]**2+radii2[2]**2))
+	sigmaX = np.append(sigmaX,np.sqrt((radii1[0]**2+radii2[0]**2)/2))
+	sigmaY = np.append(sigmaY,np.sqrt((radii1[1]**2+radii2[1]**2)/2))
+	sigmaZ = np.append(sigmaZ,np.sqrt((radii1[2]**2+radii2[2]**2)/2))
 sigmaXY_ = np.sqrt(sigmaX_**2+sigmaY_**2)
 sigmaXY = np.sqrt(sigmaX**2+sigmaY**2)
 
@@ -120,7 +118,7 @@ new_fixed_axis = par3.get_grid_helper().new_fixed_axis
 par3.axis["right"] = new_fixed_axis(loc="right", axes=par3, offset=(offset3, 0))
 par3.axis["right"].toggle(all=True)
 
-host.set_xlabel('the i$^{th}$ segment')
+host.set_xlabel('the i$^{th}$ node')
 
 host.set_ylabel('amount of images')
 par1.set_ylabel('redundancies')
@@ -133,7 +131,7 @@ host.set_xlim([1,x.max()])
 p1, = host.plot(x, y1, 'b-', label='amount of images',marker='s',markeredgewidth=0,markersize=4)
 p2, = par1.plot(x, y2, 'g-', label='redundancies',marker='o',markeredgewidth=0,markersize=4)
 #p3, = par2.plot(x, y3, 'r-', label='posterior standard deviation',marker='D',markeredgewidth=0,markersize=4)
-p4, = par3.plot(x, XYZ[2,1:], 'k-', label='height of reconstructed line',marker='v',markeredgewidth=0,markersize=6)
+p4, = par3.plot(x, XYZ[2,1:], 'k-', label='height of reconstructed node',marker='v',markeredgewidth=0,markersize=6)
 
 host.legend(loc='lower left', bbox_to_anchor=(0.6,-0.33),fontsize=9)
 
@@ -167,7 +165,7 @@ new_fixed_axis = par2.get_grid_helper().new_fixed_axis
 par2.axis["right"] = new_fixed_axis(loc="right", axes=par2, offset=(offset2, 0))
 par2.axis["right"].toggle(all=True)
 
-host.set_xlabel('the i$^{th}$ segment')
+host.set_xlabel('the i$^{th}$ node')
 
 host.set_ylabel('amount of images')
 par1.set_ylabel('posterior variances of estimated parameters $\hat{\Sigma}_{\hat{X}\hat{X}}$ [meter]') # which notation better
@@ -210,7 +208,7 @@ par1.axis["right"] = new_fixed_axis(loc="right", axes=par1, offset=(0, 0))
 par1.axis["right"].toggle(all=True)
 
 
-host.set_xlabel('the i$^{th}$ segment')
+host.set_xlabel('the i$^{th}$ node')
 
 host.set_ylabel('amount of images')
 par1.set_ylabel('priori variances of estimated parameters [meter]') # which notation better
@@ -260,7 +258,7 @@ new_fixed_axis = par3.get_grid_helper().new_fixed_axis
 par3.axis["right"] = new_fixed_axis(loc="right", axes=par3, offset=(offset3, 0))
 par3.axis["right"].toggle(all=True)
 
-host.set_xlabel('the i$^{th}$ segment')
+host.set_xlabel('the i$^{th}$ node')
 
 host.set_ylabel('amount of images')
 par1.set_ylabel('posterior variances of estimated parameters $\sqrt{\hat{\sigma}_\hat{X}^2+\hat{\sigma}_\hat{Y}^2}$ [meter]') # which notation better
@@ -311,7 +309,7 @@ new_fixed_axis = par2.get_grid_helper().new_fixed_axis
 par2.axis["right"] = new_fixed_axis(loc="right", axes=par2, offset=(offset2, 0))
 par2.axis["right"].toggle(all=True)
 
-host.set_xlabel('the i$^{th}$ segment')
+host.set_xlabel('the i$^{th}$ node')
 
 host.set_ylabel('amount of images')
 par1.set_ylabel('priori variances of estimated parameters $\sqrt{\sigma_\hat{X}^2+\hat{\sigma}_\hat{Y}^2}$ [meter]') # which notation better
