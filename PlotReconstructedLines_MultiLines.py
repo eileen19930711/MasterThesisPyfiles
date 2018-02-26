@@ -14,7 +14,7 @@ Zmin=999999999
 
 fig = plt.figure(1);### figure 1: ReconstructionBeforeAfter
 ax = fig.add_subplot(111,projection='3d');
-for ii in range(0,160): #,1959)
+for ii in range(0,703): #,1959)
 	try:
 		with open((foldername+'dist_opti_proj_'+str(ii)+'.txt'),'r') as fid:
 			data = [ map(float,line.split()) for line in fid ];
