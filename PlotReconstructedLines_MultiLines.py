@@ -40,10 +40,15 @@ for ii in range(0,703): #,1959)
 		#if length>6:
 		#	ax.plot(XYZ_yhat[0:,0],XYZ_yhat[0:,1],XYZ_yhat[0:,2],c='k',label='reconstructed lines');
 		#	ax.text(XYZ_yhat[0,0],XYZ_yhat[0,1],XYZ_yhat[0,2]+0.2,'%d' % ii,color='k');
-
+		
+		#numpt = XYZ_yhat.shape[0]
+		#print(XYZ_yhat[0:,0].shape)
+		#aaa = np.ones((numpt,1))*450
+		#print(aaa[:,0].shape)
+		#ax.plot(XYZ_yhat[0:,0],XYZ_yhat[0:,1],aaa[:,0],color='indianred');
 
 		### projected; before optimization
-		ax.plot(XYZ_y[0:,0],XYZ_y[0:,1],XYZ_y[0:,2],c='k',label='DSM profile');
+		#ax.plot(XYZ_y[0:,0],XYZ_y[0:,1],XYZ_y[0:,2],c='k',label='DSM profile');
 
 		if XYZ_yhat[0:,0].max()	> Xmax:
 			Xmax = XYZ_yhat[0:,0].max()
@@ -75,7 +80,7 @@ for xb, yb, zb in zip(Xb, Yb, Zb):
 	ax.plot([xb], [yb], [zb], 'w')
 #ax.set_xlim([690900.0, 691150.0])
 #ax.set_ylim([5383850.0, 5384000.0])
-
+#ax.set_zlim(450, Zmax+2)
 
 plt.figure(1) 
 ax.set_title('Reconstructed line segments')#, fontsize=10)
