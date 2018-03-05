@@ -89,6 +89,10 @@ sigmaXY = np.empty((0),float)
 for indx in range(num):
 	A = Sigmaxxhat[0:3,0:3,indx]#posterior
 	radii1 = np.sqrt(np.diag(A))
+	#print(A)
+	#print(np.diag(A))
+	#print(radii1)
+
 	B = Sigmaxxhat[3:6,3:6,indx]#posterior
 	radii2 = np.sqrt(np.diag(B))
 	sigmaX_ = np.append(sigmaX_,np.sqrt((radii1[0]**2+radii2[0]**2)/2))
@@ -97,7 +101,7 @@ for indx in range(num):
 
 	A = Sigmaxx[0:3,0:3,indx]#priori
 	radii = np.sqrt(np.diag(A))
-	B = Sigmaxx[3:6,3:6,indx]#posterior
+	B = Sigmaxx[3:6,3:6,indx]#priori
 	radii2 = np.sqrt(np.diag(B))
 	sigmaX = np.append(sigmaX,np.sqrt((radii1[0]**2+radii2[0]**2)/2))
 	sigmaY = np.append(sigmaY,np.sqrt((radii1[1]**2+radii2[1]**2)/2))
