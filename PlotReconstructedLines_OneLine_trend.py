@@ -7,8 +7,8 @@ import numpy as np
 ###
 
 
-foldername = '/home/sheu_ch/la/A9/Analysis/Test2_img1line5/';
-ii=4
+foldername = '/home/sheu_ch/la/A9/Analysis/Test3_img1line4/';
+ii=3
 ImgNum=15
 
 # Read Optimized lines(X,Y,Z)
@@ -87,14 +87,17 @@ sigmaY = np.empty((0),float)
 sigmaZ = np.empty((0),float)
 sigmaXY = np.empty((0),float)
 for indx in range(num):
+	print(indx)
 	A = Sigmaxxhat[0:3,0:3,indx]#posterior
+	print(np.diag(A))
 	radii1 = np.sqrt(np.diag(A))
-	#print(A)
-	#print(np.diag(A))
-	#print(radii1)
+	print(radii1)
 
 	B = Sigmaxxhat[3:6,3:6,indx]#posterior
+	print(np.diag(B))
 	radii2 = np.sqrt(np.diag(B))
+	print(radii2)
+
 	sigmaX_ = np.append(sigmaX_,np.sqrt((radii1[0]**2+radii2[0]**2)/2))
 	sigmaY_ = np.append(sigmaY_,np.sqrt((radii1[1]**2+radii2[1]**2)/2))
 	sigmaZ_ = np.append(sigmaZ_,np.sqrt((radii1[2]**2+radii2[2]**2)/2))
@@ -106,6 +109,9 @@ for indx in range(num):
 	sigmaX = np.append(sigmaX,np.sqrt((radii1[0]**2+radii2[0]**2)/2))
 	sigmaY = np.append(sigmaY,np.sqrt((radii1[1]**2+radii2[1]**2)/2))
 	sigmaZ = np.append(sigmaZ,np.sqrt((radii1[2]**2+radii2[2]**2)/2))
+	
+	sigmaXY_2 = A+B
+	
 sigmaXY_ = np.sqrt(sigmaX_**2+sigmaY_**2)
 sigmaXY = np.sqrt(sigmaX**2+sigmaY**2)
 

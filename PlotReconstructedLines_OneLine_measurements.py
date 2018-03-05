@@ -6,9 +6,8 @@ import matplotlib.pyplot as plt
 import matplotlib.mlab as mlab
 import numpy as np
 
-foldername = '/home/sheu_ch/la/A9/Analysis/Test2_img1line5/';
-numseg=8
-ii=4
+foldername = '/home/sheu_ch/la/A9/Analysis/Test3_img1line4/';
+ii=3
 
 ## Read Statistics
 totalimgnum = np.empty((0),int);
