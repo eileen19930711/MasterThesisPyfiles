@@ -7,7 +7,7 @@ import numpy as np
 ###
 
 
-foldername = '/home/sheu_ch/la/A9/Analysis/Test3_img1line4/';
+foldername = '/home/sheu_ch/la/A9/Analysis/Test5_img1line4_xdibias/';
 ii=3
 ImgNum=15
 
@@ -87,28 +87,28 @@ sigmaY = np.empty((0),float)
 sigmaZ = np.empty((0),float)
 sigmaXY = np.empty((0),float)
 for indx in range(num):
-	print(indx)
+	#print(indx)
 	A = Sigmaxxhat[0:3,0:3,indx]#posterior
-	print(np.diag(A))
-	radii1 = np.sqrt(np.diag(A))
-	print(radii1)
+	#print(np.diag(A))
+	#radii1 = np.sqrt(np.diag(A))
+	#print(radii1)
 
 	B = Sigmaxxhat[3:6,3:6,indx]#posterior
-	print(np.diag(B))
-	radii2 = np.sqrt(np.diag(B))
-	print(radii2)
+	#print(np.diag(B))
+	#radii2 = np.sqrt(np.diag(B))
+	#print(radii2)
 
-	sigmaX_ = np.append(sigmaX_,np.sqrt((radii1[0]**2+radii2[0]**2)/2))
-	sigmaY_ = np.append(sigmaY_,np.sqrt((radii1[1]**2+radii2[1]**2)/2))
-	sigmaZ_ = np.append(sigmaZ_,np.sqrt((radii1[2]**2+radii2[2]**2)/2))
+	sigmaX_ = np.append(sigmaX_,np.sqrt((A[0,0]+B[0,0])/2))
+	sigmaY_ = np.append(sigmaY_,np.sqrt((A[1,1]+B[1,1])/2))
+	sigmaZ_ = np.append(sigmaZ_,np.sqrt((A[2,2]+B[2,2])/2))
 
 	A = Sigmaxx[0:3,0:3,indx]#priori
-	radii = np.sqrt(np.diag(A))
+	#radii = np.sqrt(np.diag(A))
 	B = Sigmaxx[3:6,3:6,indx]#priori
-	radii2 = np.sqrt(np.diag(B))
-	sigmaX = np.append(sigmaX,np.sqrt((radii1[0]**2+radii2[0]**2)/2))
-	sigmaY = np.append(sigmaY,np.sqrt((radii1[1]**2+radii2[1]**2)/2))
-	sigmaZ = np.append(sigmaZ,np.sqrt((radii1[2]**2+radii2[2]**2)/2))
+	#radii2 = np.sqrt(np.diag(B))
+	sigmaX = np.append(sigmaX,np.sqrt((A[0,0]+B[0,0])/2))
+	sigmaY = np.append(sigmaY,np.sqrt((A[0,0]+B[0,0])/2))
+	sigmaZ = np.append(sigmaZ,np.sqrt((A[0,0]+B[0,0])/2))
 	
 	sigmaXY_2 = A+B
 	
@@ -202,7 +202,7 @@ p2, = par1.plot(x, sigmaZ_,'-', color='green', label='$\hat{\sigma}_\hat{Z}$',ma
 
 p3, = par2.plot(x, y3, label='posterior standard deviation', color='red',marker='D',markeredgewidth=0,markersize=4)
 
-host.legend(loc='lower left', bbox_to_anchor=(0.6,-0.36),fontsize=9)
+host.legend(loc='lower left', bbox_to_anchor=(-0.05,-0.3),fontsize=9)
 
 host.axis["left"].label.set_color(p1.get_color())
 par1.axis["right"].label.set_color(p2.get_color())
@@ -242,13 +242,13 @@ p1, = host.plot(x, y1, label='amount of images',marker='s',markeredgewidth=0,mar
 p2, = par1.plot(x, sigmaXY,'-', color='gold', label='$\sqrt{\sigma_\hat{X}^2+\hat{\sigma}_\hat{Y}^2}$',marker='o',markeredgewidth=0,markersize=4)
 p2, = par1.plot(x, sigmaZ,'-', color='darkorange', label='$\sigma_\hat{Z}$',marker='^',markeredgewidth=0,markersize=6)
 
-host.legend(loc='lower left', bbox_to_anchor=(-0.05,-0.36),fontsize=9)
+host.legend(loc='lower left', bbox_to_anchor=(-0.05,-0.3),fontsize=9)
 
 host.axis["left"].label.set_color(p1.get_color())
 par1.axis["right"].label.set_color(p2.get_color())
 
-plt.subplots_adjust(bottom=0.3)
-plt.gcf().set_size_inches(10, 7)
+plt.subplots_adjust(bottom=0.2)
+plt.gcf().set_size_inches(10, 5)
 plt.savefig((foldername+'Test_SigmaXX.png'), bbox_inches="tight", dpi=300)
 
 
@@ -296,7 +296,7 @@ p3, = par2.plot(x, sigmaZ_,'-', color='green', label='$\hat{\sigma}_\hat{Z}$',ma
 
 p4, = par3.plot(x, y3, label='posterior standard deviation', color='red',marker='D',markeredgewidth=0,markersize=4)
 
-host.legend(loc='lower left', bbox_to_anchor=(0.6,-0.36),fontsize=9)
+host.legend(loc='lower left', bbox_to_anchor=(-0.05,-0.3),fontsize=9)
 
 host.axis["left"].label.set_color(p1.get_color())
 par1.axis["right"].label.set_color(p2.get_color())
@@ -346,15 +346,15 @@ p2, = par1.plot(x, sigmaXY,'-', color='gold', label='$\sqrt{\sigma_\hat{X}^2+\ha
 p3, = par2.plot(x, sigmaZ,'-', color='darkorange', label='$\sigma_\hat{Z}$',marker='^',markeredgewidth=0,markersize=6)
 
 
-host.legend(loc='lower left', bbox_to_anchor=(-0.05,-0.36),fontsize=9)
+host.legend(loc='lower left', bbox_to_anchor=(-0.05,-0.3),fontsize=9)
 
 host.axis["left"].label.set_color(p1.get_color())
 par1.axis["right"].label.set_color(p2.get_color())
 par2.axis["right"].label.set_color(p3.get_color())
 
 
-plt.subplots_adjust(bottom=0.3)
-plt.gcf().set_size_inches(10, 7)
+plt.subplots_adjust(bottom=0.2)
+plt.gcf().set_size_inches(10, 5)
 plt.savefig((foldername+'Test_XY_Z.png'), bbox_inches="tight", dpi=300)
 
 
