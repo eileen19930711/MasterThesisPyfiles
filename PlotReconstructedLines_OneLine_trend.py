@@ -6,10 +6,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 ###
 
-
 foldername = '/home/sheu_ch/la/A9/Analysis/Test5_img1line4_xdibias/';
 ii=3
-ImgNum=15
 
 # Read Optimized lines(X,Y,Z)
 try:
@@ -215,11 +213,11 @@ plt.clf()
 fig = plt.figure()
 ax = fig.add_subplot(111)
 
-color_idx = np.linspace(0, 1, ImgNum)
+color_idx = np.linspace(0, 1, num)
 
 cumu = np.zeros(numtheta)
 
-for i, icolor in zip(range(ImgNum), color_idx):
+for i, icolor in zip(range(num), color_idx):
 	plt.bar(x, theta[i,0:],color=plt.cm.gist_rainbow(icolor), bottom = cumu,label=('image '+str(i+1)))
 	cumu += theta[i,:]
 

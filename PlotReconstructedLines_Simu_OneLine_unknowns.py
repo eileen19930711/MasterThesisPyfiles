@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib.mlab as mlab
 import numpy as np
 
-foldername = 'D:/4-5th semester -MasterThesisDLR/files/Analysis/Simu7_img1line14_DSM/';
+foldername = '/home/sheu_ch/la/A9/Analysis/Simu_0306/';
 ii=0
 
 

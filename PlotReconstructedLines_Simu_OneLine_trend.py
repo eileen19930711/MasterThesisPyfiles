@@ -6,15 +6,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 ###
 
-foldername = 'D:/4-5th semester -MasterThesisDLR/files/Analysis/Simu7_img1line14_DSM/';
+foldername = '/home/sheu_ch/la/A9/Analysis/Simu_0306/';
 ii=0
 
+
 # Read Optimized lines(X,Y,Z)
-# Read Optimized lines(X,Y,Z) # original
 try:
-	XYZ = np.loadtxt((foldername + 'Poly3D_0.txt'), skiprows=1, usecols=(0, 1, 2), unpack=True)
+	XYZ = np.loadtxt((foldername + 'Poly3D_'+str(ii)+'.txt'), skiprows=1, usecols=(0, 1, 2), unpack=True)
 except IOError as e:
-	print('Poly3D_0.txt not found')
+	print('Poly3D_'+str(ii)+'.txt not found')
 numOpt = XYZ.shape[1]
 
 ## Read Statistics
@@ -77,268 +77,109 @@ sigmaZ = np.empty((0),float)
 sigmaXY = np.empty((0),float)
 for indx in range(num):
 	A = Sigmaxxhat[0:3,0:3,indx]#posterior
-	radii1 = np.sqrt(np.diag(A))
 	B = Sigmaxxhat[3:6,3:6,indx]#posterior
-	radii2 = np.sqrt(np.diag(B))
-	sigmaX_ = np.append(sigmaX_,np.sqrt((radii1[0]**2+radii2[0]**2)/2))
-	sigmaY_ = np.append(sigmaY_,np.sqrt((radii1[1]**2+radii2[1]**2)/2))
-	sigmaZ_ = np.append(sigmaZ_,np.sqrt((radii1[2]**2+radii2[2]**2)/2))
+	sigmaX_ = np.append(sigmaX_,np.sqrt((A[0,0]+B[0,0])/2))
+	sigmaY_ = np.append(sigmaY_,np.sqrt((A[1,1]+B[1,1])/2))
+	sigmaZ_ = np.append(sigmaZ_,np.sqrt((A[2,2]+B[2,2])/2))
 
 	A = Sigmaxx[0:3,0:3,indx]#priori
-	radii = np.sqrt(np.diag(A))
 	B = Sigmaxx[3:6,3:6,indx]#priori
-	radii2 = np.sqrt(np.diag(B))
-	sigmaX = np.append(sigmaX,np.sqrt((radii1[0]**2+radii2[0]**2)/2))
-	sigmaY = np.append(sigmaY,np.sqrt((radii1[1]**2+radii2[1]**2)/2))
-	sigmaZ = np.append(sigmaZ,np.sqrt((radii1[2]**2+radii2[2]**2)/2))
+	sigmaX = np.append(sigmaX,np.sqrt((A[0,0]+B[0,0])/2))
+	sigmaY = np.append(sigmaY,np.sqrt((A[1,1]+B[1,1])/2))
+	sigmaZ = np.append(sigmaZ,np.sqrt((A[2,2]+B[2,2])/2))
+	
 sigmaXY_ = np.sqrt(sigmaX_**2+sigmaY_**2)
 sigmaXY = np.sqrt(sigmaX**2+sigmaY**2)
 
 
-## Plot 1: basics
+## Plot 1: information on image amount, redundancies and the reconstructed height
 
-host = host_subplot(111,axes_class=AA.Axes);
-plt.subplots_adjust(right=0.75)
+f, axarr = plt.subplots(3, sharex=True)
 
-par1 = host.twinx()
-#par2 = host.twinx()
-par3 = host.twinx()
+axarr[0].plot(x, y1, 'b-', label='amount of images',marker='s',markeredgewidth=0,markersize=4)
+axarr[0].set_ylim([0,y1.max()+1])
+axarr[0].legend(loc='lower right',fontsize=9)
+axarr[0].grid(True)
 
-new_fixed_axis = par1.get_grid_helper().new_fixed_axis
-par1.axis["right"] = new_fixed_axis(loc="right", axes=par1, offset=(0, 0))
-par1.axis["right"].toggle(all=True)
+axarr[1].plot(x, y2, 'g-', label='redundancies',marker='o',markeredgewidth=0,markersize=4)
+axarr[1].legend(loc='lower right',fontsize=9)
+axarr[1].grid(True)
 
-#offset2 = 60
-#new_fixed_axis = par2.get_grid_helper().new_fixed_axis
-#par2.axis["right"] = new_fixed_axis(loc="right", axes=par2, offset=(offset2, 0))
-#par2.axis["right"].toggle(all=True)
+axarr[2].plot(x, XYZ[2,1:], 'k-', label='height of reconstructed line node',marker='v',markeredgewidth=0,markersize=6)
+axarr[2].set_ylabel('[meter]')
+axarr[2].legend(loc='upper right',fontsize=9)
+axarr[2].grid(True)
 
-offset3 = 60
-new_fixed_axis = par3.get_grid_helper().new_fixed_axis
-par3.axis["right"] = new_fixed_axis(loc="right", axes=par3, offset=(offset3, 0))
-par3.axis["right"].toggle(all=True)
+axarr[2].set_xlabel('the i$^{th}$ node')
+axarr[2].set_xlim([1,x.max()])
 
-host.set_xlabel('the i$^{th}$ node')
-
-host.set_ylabel('amount of images')
-par1.set_ylabel('redundancies')
-#par2.set_ylabel('posterior standard deviation $\hat{\sigma}_0$ [pixel]')
-par3.set_ylabel('height of the reconstructed line nodes [meter]')
-
-host.set_ylim([0,y1.max()+1])
-host.set_xlim([1,x.max()])
-
-p1, = host.plot(x, y1, 'b-', label='amount of images',marker='s',markeredgewidth=0,markersize=4)
-p2, = par1.plot(x, y2, 'g-', label='redundancies',marker='o',markeredgewidth=0,markersize=4)
-#p3, = par2.plot(x, y3, 'r-', label='posterior standard deviation',marker='D',markeredgewidth=0,markersize=4)
-p4, = par3.plot(x, XYZ[2,1:], 'k-', label='height of reconstructed node',marker='v',markeredgewidth=0,markersize=6)
-
-host.legend(loc='lower left', bbox_to_anchor=(0.6,-0.33),fontsize=9)
-
-host.axis["left"].label.set_color(p1.get_color())
-par1.axis["right"].label.set_color(p2.get_color())
-#par2.axis["right"].label.set_color(p3.get_color())
-par3.axis["right"].label.set_color(p4.get_color())
-
-plt.subplots_adjust(bottom=0.3)
-plt.gcf().set_size_inches(10, 7)
+plt.gcf().set_size_inches(10, 6)
 plt.savefig((foldername+'Simu_ImgNum.png'), bbox_inches="tight", dpi=300)
 
-
-
 plt.clf()
+
 
 ## Plot 2: posterior Variance-Covariance 
 
-host = host_subplot(111,axes_class=AA.Axes);
-plt.subplots_adjust(right=0.75)
+f, axarr = plt.subplots(3, sharex=True, gridspec_kw = {'height_ratios':[2,2,3]})
 
-par1 = host.twinx()
-par2 = host.twinx()
+axarr[0].plot(x, y1, 'b-', label='amount of images',marker='s',markeredgewidth=0,markersize=4)
+axarr[0].set_ylim([0,y1.max()+1])
+axarr[0].legend(loc='lower left',fontsize=9)
+axarr[0].grid(True)
 
-new_fixed_axis = par1.get_grid_helper().new_fixed_axis
-par1.axis["right"] = new_fixed_axis(loc="right", axes=par1, offset=(0, 0))
-par1.axis["right"].toggle(all=True)
+axarr[1].plot(x, y3, label='posterior STD of the measurements, $\hat{\sigma}_0$', color='red',marker='D',markeredgewidth=0,markersize=4)
+axarr[1].set_ylim([y3.min()-0.05,y3.max()+0.05])
+axarr[1].set_ylabel('[pixel]')
+axarr[1].legend(loc='upper left',fontsize=9)
+axarr[1].grid(True)
 
-offset2 = 60
-new_fixed_axis = par2.get_grid_helper().new_fixed_axis
-par2.axis["right"] = new_fixed_axis(loc="right", axes=par2, offset=(offset2, 0))
-par2.axis["right"].toggle(all=True)
+axarr[2].plot(x, sigmaXY_,'-', color='lime', label='posterior STD of the unknowns in horizontal direction, $\sqrt{\hat{\sigma}_\hat{X}^2+\hat{\sigma}_\hat{Y}^2}$',marker='o',markeredgewidth=0,markersize=4)
+axarr[2].plot(x, sigmaZ_,'-', color='green', label='posterior STD of the unknowns in vertical direction, $\hat{\sigma}_\hat{Z}$',marker='^',markeredgewidth=0,markersize=6)
+axarr[2].set_ylim([0,sigmaZ_.max()+0.005])
+axarr[2].set_ylabel('[meter]')
+axarr[2].legend(loc='best',fontsize=9)
+axarr[2].grid(True)
 
-host.set_xlabel('the i$^{th}$ node')
+axarr[2].set_xlabel('the i$^{th}$ node')
+axarr[2].set_xlim([1,x.max()])
 
-host.set_ylabel('amount of images')
-par1.set_ylabel('posterior variances of estimated parameters $\hat{\Sigma}_{\hat{X}\hat{X}}$ [meter]') # which notation better
-par2.set_ylabel('posterior standard deviation $\hat{\sigma}_0$ [pixel]')
-
-host.set_ylim([0,y1.max()+1])
-host.set_xlim([1,x.max()])
-
-p1, = host.plot(x, y1, label='amount of images',marker='s',markeredgewidth=0,markersize=4)
-
-p2, = par1.plot(x, sigmaXY_,'-', color='lime', label='$\sqrt{\hat{\sigma}_\hat{X}^2+\hat{\sigma}_\hat{Y}^2}$',marker='o',markeredgewidth=0,markersize=4)
-p2, = par1.plot(x, sigmaZ_,'-', color='green', label='$\hat{\sigma}_\hat{Z}$',marker='^',markeredgewidth=0,markersize=6)
-
-p3, = par2.plot(x, y3, label='posterior standard deviation', color='red',marker='D',markeredgewidth=0,markersize=4)
-
-host.legend(loc='lower left', bbox_to_anchor=(0.6,-0.36),fontsize=9)
-
-host.axis["left"].label.set_color(p1.get_color())
-par1.axis["right"].label.set_color(p2.get_color())
-par2.axis["right"].label.set_color(p3.get_color())
-
-
-plt.subplots_adjust(bottom=0.3)
 plt.gcf().set_size_inches(10, 7)
 plt.savefig((foldername+'Simu_SigmaXXhat.png'), bbox_inches="tight", dpi=300)
 
-
-
 plt.clf()
+
 
 ## Plot 3: priori Variance-Covariance 
 
-host = host_subplot(111,axes_class=AA.Axes);
-plt.subplots_adjust(right=0.75)
+f, axarr = plt.subplots(3, sharex=True, gridspec_kw = {'height_ratios':[2,2,3]})
 
-par1 = host.twinx()
+axarr[0].plot(x, y1, 'b-', label='amount of images',marker='s',markeredgewidth=0,markersize=4)
+axarr[0].set_ylim([0,y1.max()+1])
+axarr[0].legend(loc='lower right',fontsize=9)
+axarr[0].grid(True)
 
-new_fixed_axis = par1.get_grid_helper().new_fixed_axis
-par1.axis["right"] = new_fixed_axis(loc="right", axes=par1, offset=(0, 0))
-par1.axis["right"].toggle(all=True)
+axarr[1].plot(x, y3, label='posterior STD of the measurements, $\hat{\sigma}_0$', color='red',marker='D',markeredgewidth=0,markersize=4)
+axarr[1].set_ylim([y3.min()-0.08,y3.max()+0.05])
+axarr[1].set_ylabel('[pixel]')
+axarr[1].legend(loc='lower right',fontsize=9)
+axarr[1].grid(True)
 
+axarr[2].plot(x, sigmaXY,'-', color='gold', label='priori STD of the unknowns in horizontal direction, $\sqrt{\sigma_\hat{X}^2+\sigma_\hat{Y}^2}$',marker='o',markeredgewidth=0,markersize=4)
+axarr[2].plot(x, sigmaZ,'-', color='darkorange', label='priori STD of the unknowns in vertical direction, $\sigma_\hat{Z}$',marker='^',markeredgewidth=0,markersize=6)
+axarr[2].set_ylim([sigmaXY.min()-0.005,sigmaZ.max()+0.01])
+axarr[2].set_ylabel('[meter]')
+axarr[2].legend(loc='upper right',fontsize=9)
+axarr[2].grid(True)
 
-host.set_xlabel('the i$^{th}$ node')
+axarr[2].set_xlabel('the i$^{th}$ node')
+axarr[2].set_xlim([1,x.max()])
 
-host.set_ylabel('amount of images')
-par1.set_ylabel('priori variances of estimated parameters [meter]') # which notation better
-
-host.set_ylim([0,y1.max()+1])
-host.set_xlim([1,x.max()])
-
-p1, = host.plot(x, y1, label='amount of images',marker='s',markeredgewidth=0,markersize=4)
-
-p2, = par1.plot(x, sigmaXY,'-', color='gold', label='$\sqrt{\sigma_\hat{X}^2+\hat{\sigma}_\hat{Y}^2}$',marker='o',markeredgewidth=0,markersize=4)
-p2, = par1.plot(x, sigmaZ,'-', color='darkorange', label='$\sigma_\hat{Z}$',marker='^',markeredgewidth=0,markersize=6)
-
-host.legend(loc='lower left', bbox_to_anchor=(-0.05,-0.36),fontsize=9)
-
-host.axis["left"].label.set_color(p1.get_color())
-par1.axis["right"].label.set_color(p2.get_color())
-
-plt.subplots_adjust(bottom=0.3)
 plt.gcf().set_size_inches(10, 7)
 plt.savefig((foldername+'Simu_SigmaXX.png'), bbox_inches="tight", dpi=300)
 
-
-
 plt.clf()
 
-
-## Plot 4
-
-host = host_subplot(111,axes_class=AA.Axes);
-plt.subplots_adjust(right=0.75)
-
-par1 = host.twinx()
-par2 = host.twinx()
-par3 = host.twinx()
-
-new_fixed_axis = par1.get_grid_helper().new_fixed_axis
-par1.axis["right"] = new_fixed_axis(loc="right", axes=par1, offset=(0, 0))
-par1.axis["right"].toggle(all=True)
-
-offset2 = 60
-new_fixed_axis = par2.get_grid_helper().new_fixed_axis
-par2.axis["right"] = new_fixed_axis(loc="right", axes=par2, offset=(offset2, 0))
-par2.axis["right"].toggle(all=True)
-
-offset3 = 120
-new_fixed_axis = par3.get_grid_helper().new_fixed_axis
-par3.axis["right"] = new_fixed_axis(loc="right", axes=par3, offset=(offset3, 0))
-par3.axis["right"].toggle(all=True)
-
-host.set_xlabel('the i$^{th}$ node')
-
-host.set_ylabel('amount of images')
-par1.set_ylabel('posterior variances of estimated parameters $\sqrt{\hat{\sigma}_\hat{X}^2+\hat{\sigma}_\hat{Y}^2}$ [meter]') # which notation better
-par2.set_ylabel('posterior variances of estimated parameters $\hat{\sigma}_{\hat{Z}}$ [meter]') # which notation better
-par3.set_ylabel('posterior standard deviation $\hat{\sigma}_0$ [pixel]')
-
-host.set_ylim([0,y1.max()+1])
-host.set_xlim([1,x.max()])
-
-p1, = host.plot(x, y1, label='amount of images',marker='s',markeredgewidth=0,markersize=4)
-
-p2, = par1.plot(x, sigmaXY_,'-', color='lime', label='$\sqrt{\hat{\sigma}_\hat{X}^2+\hat{\sigma}_\hat{Y}^2}$',marker='o',markeredgewidth=0,markersize=4)
-p3, = par2.plot(x, sigmaZ_,'-', color='green', label='$\hat{\sigma}_\hat{Z}$',marker='^',markeredgewidth=0,markersize=6)
-
-p4, = par3.plot(x, y3, label='posterior standard deviation', color='red',marker='D',markeredgewidth=0,markersize=4)
-
-host.legend(loc='lower left', bbox_to_anchor=(0.6,-0.36),fontsize=9)
-
-host.axis["left"].label.set_color(p1.get_color())
-par1.axis["right"].label.set_color(p2.get_color())
-par2.axis["right"].label.set_color(p3.get_color())
-par3.axis["right"].label.set_color(p4.get_color())
-
-
-plt.subplots_adjust(bottom=0.3)
-plt.gcf().set_size_inches(10, 7)
-plt.savefig((foldername+'Simu_XY_Z_hat.png'), bbox_inches="tight", dpi=300)
-
-
-
-plt.clf()
-
-
-## Plot 5
-
-host = host_subplot(111,axes_class=AA.Axes);
-plt.subplots_adjust(right=0.75)
-
-par1 = host.twinx()
-par2 = host.twinx()
-
-new_fixed_axis = par1.get_grid_helper().new_fixed_axis
-par1.axis["right"] = new_fixed_axis(loc="right", axes=par1, offset=(0, 0))
-par1.axis["right"].toggle(all=True)
-
-offset2 = 60
-new_fixed_axis = par2.get_grid_helper().new_fixed_axis
-par2.axis["right"] = new_fixed_axis(loc="right", axes=par2, offset=(offset2, 0))
-par2.axis["right"].toggle(all=True)
-
-host.set_xlabel('the i$^{th}$ node')
-
-host.set_ylabel('amount of images')
-par1.set_ylabel('priori variances of estimated parameters $\sqrt{\sigma_\hat{X}^2+\hat{\sigma}_\hat{Y}^2}$ [meter]') # which notation better
-par2.set_ylabel('priori variances of estimated parameters $\sigma_{\hat{Z}}$ [meter]') # which notation better
-
-
-host.set_ylim([0,y1.max()+1])
-host.set_xlim([1,x.max()])
-
-p1, = host.plot(x, y1, label='amount of images',marker='s',markeredgewidth=0,markersize=4)
-
-p2, = par1.plot(x, sigmaXY,'-', color='gold', label='$\sqrt{\sigma_\hat{X}^2+\hat{\sigma}_\hat{Y}^2}$',marker='o',markeredgewidth=0,markersize=4)
-p3, = par2.plot(x, sigmaZ,'-', color='darkorange', label='$\sigma_\hat{Z}$',marker='^',markeredgewidth=0,markersize=6)
-
-
-host.legend(loc='lower left', bbox_to_anchor=(-0.05,-0.36),fontsize=9)
-
-host.axis["left"].label.set_color(p1.get_color())
-par1.axis["right"].label.set_color(p2.get_color())
-par2.axis["right"].label.set_color(p3.get_color())
-
-
-plt.subplots_adjust(bottom=0.3)
-plt.gcf().set_size_inches(10, 7)
-plt.savefig((foldername+'Simu_XY_Z.png'), bbox_inches="tight", dpi=300)
-
-
-
-plt.clf()
 
 ####### plot 6: correlation
 
@@ -353,4 +194,10 @@ plt.subplots_adjust(bottom=0.3)
 plt.gcf().set_size_inches(6, 8)
 #plt.tight_layout()
 plt.savefig((foldername+'Simu_ImgNumSigmaXXCorrelation.png'), bbox_inches="tight", dpi=300)
+
+
+
+plt.clf()
+
+
 
