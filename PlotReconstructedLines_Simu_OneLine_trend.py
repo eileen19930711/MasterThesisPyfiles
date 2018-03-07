@@ -153,30 +153,24 @@ plt.clf()
 
 ## Plot 3: priori Variance-Covariance 
 
-f, axarr = plt.subplots(3, sharex=True, gridspec_kw = {'height_ratios':[2,2,3]})
+f, axarr = plt.subplots(2, sharex=True, gridspec_kw = {'height_ratios':[2,3]})
 
 axarr[0].plot(x, y1, 'b-', label='amount of images',marker='s',markeredgewidth=0,markersize=4)
 axarr[0].set_ylim([0,y1.max()+1])
 axarr[0].legend(loc='lower right',fontsize=9)
 axarr[0].grid(True)
 
-axarr[1].plot(x, y3, label='posterior STD of the measurements, $\hat{\sigma}_0$', color='red',marker='D',markeredgewidth=0,markersize=4)
-axarr[1].set_ylim([y3.min()-0.08,y3.max()+0.05])
-axarr[1].set_ylabel('[pixel]')
-axarr[1].legend(loc='lower right',fontsize=9)
+axarr[1].plot(x, sigmaXY,'-', color='gold', label='priori STD of the unknowns in horizontal direction, $\sqrt{\sigma_\hat{X}^2+\sigma_\hat{Y}^2}$',marker='o',markeredgewidth=0,markersize=4)
+axarr[1].plot(x, sigmaZ,'-', color='darkorange', label='priori STD of the unknowns in vertical direction, $\sigma_\hat{Z}$',marker='^',markeredgewidth=0,markersize=6)
+axarr[1].set_ylim([sigmaXY.min()-0.005,sigmaZ.max()+0.01])
+axarr[1].set_ylabel('[meter]')
+axarr[1].legend(loc='upper right',fontsize=9)
 axarr[1].grid(True)
 
-axarr[2].plot(x, sigmaXY,'-', color='gold', label='priori STD of the unknowns in horizontal direction, $\sqrt{\sigma_\hat{X}^2+\sigma_\hat{Y}^2}$',marker='o',markeredgewidth=0,markersize=4)
-axarr[2].plot(x, sigmaZ,'-', color='darkorange', label='priori STD of the unknowns in vertical direction, $\sigma_\hat{Z}$',marker='^',markeredgewidth=0,markersize=6)
-axarr[2].set_ylim([sigmaXY.min()-0.005,sigmaZ.max()+0.01])
-axarr[2].set_ylabel('[meter]')
-axarr[2].legend(loc='upper right',fontsize=9)
-axarr[2].grid(True)
+axarr[1].set_xlabel('the i$^{th}$ node')
+axarr[1].set_xlim([1,x.max()])
 
-axarr[2].set_xlabel('the i$^{th}$ node')
-axarr[2].set_xlim([1,x.max()])
-
-plt.gcf().set_size_inches(10, 7)
+plt.gcf().set_size_inches(10, 5)
 plt.savefig((foldername+'Simu_SigmaXX.png'), bbox_inches="tight", dpi=300)
 
 plt.clf()

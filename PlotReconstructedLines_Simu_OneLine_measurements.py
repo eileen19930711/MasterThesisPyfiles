@@ -5,6 +5,7 @@ import mpl_toolkits.axisartist as AA
 import matplotlib.pyplot as plt
 import matplotlib.mlab as mlab
 import numpy as np
+from matplotlib.ticker import MaxNLocator
 
 foldername = 'D:/4-5th semester -MasterThesisDLR/files/Analysis/Simu_0306/';
 # foldername = '/home/sheu_ch/la/A9/Analysis/Simu_0306/';
@@ -132,10 +133,10 @@ ax2.set_xlim([np.min(x),np.max(x)])
 ax1.set_ylabel('mean [pixel]')
 ax2.set_ylabel('variance [pixel]')
 
-ax2.set_xlabel('the i$^{th}$ segment')
+ax2.set_xlabel('the i$^{th}$ node')
 
 ax2.get_xticklabels()[-1].set_visible(False)
-
+ax2.xaxis.set_major_locator(MaxNLocator(integer=True))
 
 ax2.legend(loc='lower left', bbox_to_anchor=(-0.05,-0.48),fontsize=9)
 
