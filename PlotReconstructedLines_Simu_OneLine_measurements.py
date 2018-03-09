@@ -131,7 +131,7 @@ ax1.set_xlim([np.min(x),np.max(x)])
 ax2.set_xlim([np.min(x),np.max(x)])
 
 ax1.set_ylabel('mean [pixel]')
-ax2.set_ylabel('variance [pixel]')
+ax2.set_ylabel('standard deviation [pixel]')
 
 ax2.set_xlabel('the i$^{th}$ node')
 

@@ -6,7 +6,8 @@ import matplotlib.pyplot as plt
 import matplotlib.mlab as mlab
 import numpy as np
 
-foldername = '/home/sheu_ch/la/A9/Analysis/Test5_img1line4_xdibias/';
+#foldername = '/home/sheu_ch/la/A9/Analysis/Test5_img1line4_xdibias/';
+foldername = 'D:/4-5th semester -MasterThesisDLR/files/Analysis/Test5_img1line4_xdibias/';
 ii=3
 
 ## Read Statistics
@@ -53,7 +54,7 @@ ax2.set_xlim([np.min(x),np.max(x)])
 ax2.set_ylim([np.min(sigma0hat),0.75])
 
 ax1.set_ylabel('mean [pixel]')
-ax2.set_ylabel('variance [pixel]')
+ax2.set_ylabel('standard deviation [pixel]')
 
 ax2.set_xlabel('the i$^{th}$ node')
 
@@ -136,7 +137,7 @@ ax2.set_xlim([np.min(x),np.max(x)])
 ax2.set_ylim([np.min(sigma0hat),0.75])
 
 ax1.set_ylabel('mean [pixel]')
-ax2.set_ylabel('variance [pixel]')
+ax2.set_ylabel('standard deviation [pixel]')
 
 ax2.set_xlabel('the i$^{th}$ node')
 
