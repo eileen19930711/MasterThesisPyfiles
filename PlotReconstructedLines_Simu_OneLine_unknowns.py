@@ -18,8 +18,9 @@ numOpt = XYZ.shape[1]
 
 # Read Optimized_Unrefined lines(X,Y,Z) # resampled
 try:
-	XYZ_DSM = np.loadtxt((foldername + 'dist_opti_proj_' + str(ii) + '.txt'), usecols=(3, 4, 5), unpack=True)
-	XYZ_dist = np.loadtxt((foldername + 'dist_opti_proj_' + str(ii) + '.txt'), usecols=(6), unpack=True)
+	XYZ_DSM_ = np.loadtxt((foldername + 'dist_opti_proj_' + str(ii) + '.txt'), usecols=(3, 4, 5, 6), unpack=True)
+	XYZ_DSM = XYZ_DSM_[0:3,0:]
+	XYZ_dist = XYZ_DSM_[3,0:]
 except IOError as e:
 	print('file dist_opti_proj_'+str(i)+'.txt not found')
 
@@ -28,8 +29,9 @@ print(np.max(np.fabs(XYZ_dist)))
 
 # Read Optimized_True lines(X,Y,Z) # resampled
 try:
-	XYZ_true = np.loadtxt((foldername + 'dist_opti_true_' + str(ii) + '.txt'), usecols=(3, 4, 5), unpack=True)
-	XYZ_dist_true = np.loadtxt((foldername + 'dist_opti_true_' + str(ii) + '.txt'), usecols=(6), unpack=True)
+	XYZ_true_ = np.loadtxt((foldername + 'dist_opti_true_' + str(ii) + '.txt'), usecols=(3, 4, 5, 6), unpack=True)
+	XYZ_true = XYZ_true_[0:3,0:]
+	XYZ_dist_true = XYZ_true_[3,0:]
 except IOError as e:
 	print('file dist_opti_true_'+str(i)+'.txt not found')
 
@@ -104,7 +106,7 @@ ax2.plot(XYZ_true[0,0:],	XYZ_true[1,0:],	np.ones(numTru)*(minZ-0.5),	color='stee
 # optimized
 ax2.plot(XYZ[0,0:],XYZ[1,0:],XYZ[2,0:],'r-',marker='o',markeredgewidth=0,markersize=4,label='reconstructed line segment');
 
-# DSM profile; before optimization
+# true line
 ax2.plot(XYZ_true[0,0:],XYZ_true[1,0:],XYZ_true[2,0:],'b-',label='true line segment');
 
 
@@ -120,6 +122,45 @@ plt.subplots_adjust(bottom=0.3)
 plt.gcf().set_size_inches(11, 8)
 #plt.tight_layout()
 plt.savefig((foldername+'Simu_3D_2.png'), bbox_inches="tight", dpi=300)
+
+
+
+####### figure 5: Simulated Data
+
+fig5 = plt.figure(5)
+ax5 = fig5.add_subplot(111,projection='3d')
+
+
+# projection on 3 planes
+ax5.plot(np.ones(numUnr) * (minX-0.5), XYZ_DSM[1, 0:], XYZ_DSM[2, 0:], color='gray')
+ax5.plot(np.ones(numTru)*(minX-0.5),	XYZ_true[1,0:],	XYZ_true[2,0:],	color='steelblue')
+
+ax5.plot(XYZ_DSM[0, 0:], np.ones(numUnr) * (maxY + 0.5), XYZ_DSM[2, 0:], color='gray')
+ax5.plot(XYZ_true[0,0:],	np.ones(numTru)*(maxY+0.5),	XYZ_true[2,0:],	color='steelblue')
+
+ax5.plot(XYZ_DSM[0, 0:], XYZ_DSM[1, 0:], np.ones(numUnr) * (minZ - 0.5), color='gray')
+ax5.plot(XYZ_true[0,0:],	XYZ_true[1,0:],	np.ones(numTru)*(minZ-0.5),	color='steelblue')
+
+# DSM profile; before optimization
+ax5.plot(XYZ_DSM[0, 0:], XYZ_DSM[1, 0:], XYZ_DSM[2, 0:], 'k-', label='approximate line segment');
+
+# true line
+ax5.plot(XYZ_true[0,0:],XYZ_true[1,0:],XYZ_true[2,0:],'b-',label='true line segment');
+
+
+
+ax5.set_xlim(minX-0.5, maxX+0.5)
+ax5.set_ylim(minY-0.5, maxY+0.5)
+ax5.set_zlim(minZ-0.5, maxZ+0.5)
+#ax5.set_title('Reconstructed line segment')#, fontsize=10)
+ax5.set_xlabel("X coordinate [m]")
+ax5.set_ylabel("Y coordinate [m]")
+ax5.set_zlabel("Z coordinate [m]")
+ax5.legend(loc='lower left', bbox_to_anchor=(0.05,-0.1),fontsize=9)
+plt.subplots_adjust(bottom=0.3)
+plt.gcf().set_size_inches(11, 8)
+#plt.tight_layout()
+plt.savefig((foldername+'Simu_3D_data.png'), bbox_inches="tight", dpi=300)
 
 
 

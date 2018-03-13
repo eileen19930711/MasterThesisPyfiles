@@ -121,13 +121,6 @@ plt.clf()
 fig1 = plt.figure(1)
 ax1 = fig1.add_subplot(111,projection='3d')
 
-minX = min(XYZ[0,0:].min(), XYZ_DSM[0, 0:].min())
-maxX = min(XYZ[0,0:].max(), XYZ_DSM[0, 0:].max())
-minY = min(XYZ[1,0:].min(), XYZ_DSM[1, 0:].min())
-maxY = max(XYZ[1,0:].max(), XYZ_DSM[1, 0:].max())
-minZ = min(XYZ[2,0:].min(), XYZ_DSM[2, 0:].min())
-maxZ = max(XYZ[2,0:].max(), XYZ_DSM[2, 0:].max())
-
 # projection on 3 planes
 ax1.plot(np.ones(numUnr) * (minX-0.5), XYZ_DSM[1, 0:], XYZ_DSM[2, 0:], linewidth=1, color='gray')
 
