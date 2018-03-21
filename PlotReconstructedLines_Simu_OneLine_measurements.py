@@ -7,8 +7,8 @@ import matplotlib.mlab as mlab
 import numpy as np
 from matplotlib.ticker import MaxNLocator
 
-foldername = 'D:/4-5th semester -MasterThesisDLR/files/Analysis/Simu_0306/';
-# foldername = '/home/sheu_ch/la/A9/Analysis/Simu_0306/';
+#foldername = 'D:/4-5th semester -MasterThesisDLR/files/Analysis/Simu_0306/';
+foldername = '/home/sheu_ch/la/A9/Analysis/Simu_0306/';
 ii=0
 
 ## Read Statistics

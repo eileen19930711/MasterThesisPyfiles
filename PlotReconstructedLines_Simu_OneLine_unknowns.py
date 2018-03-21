@@ -132,17 +132,17 @@ ax5 = fig5.add_subplot(111,projection='3d')
 
 
 # projection on 3 planes
-ax5.plot(np.ones(numUnr) * (minX-0.5), XYZ_DSM[1, 0:], XYZ_DSM[2, 0:], color='gray')
+#ax5.plot(np.ones(numUnr) * (minX-0.5), XYZ_DSM[1, 0:], XYZ_DSM[2, 0:], color='gray')
 ax5.plot(np.ones(numTru)*(minX-0.5),	XYZ_true[1,0:],	XYZ_true[2,0:],	color='steelblue')
 
-ax5.plot(XYZ_DSM[0, 0:], np.ones(numUnr) * (maxY + 0.5), XYZ_DSM[2, 0:], color='gray')
+#ax5.plot(XYZ_DSM[0, 0:], np.ones(numUnr) * (maxY + 0.5), XYZ_DSM[2, 0:], color='gray')
 ax5.plot(XYZ_true[0,0:],	np.ones(numTru)*(maxY+0.5),	XYZ_true[2,0:],	color='steelblue')
 
-ax5.plot(XYZ_DSM[0, 0:], XYZ_DSM[1, 0:], np.ones(numUnr) * (minZ - 0.5), color='gray')
+#ax5.plot(XYZ_DSM[0, 0:], XYZ_DSM[1, 0:], np.ones(numUnr) * (minZ - 0.5), color='gray')
 ax5.plot(XYZ_true[0,0:],	XYZ_true[1,0:],	np.ones(numTru)*(minZ-0.5),	color='steelblue')
 
 # DSM profile; before optimization
-ax5.plot(XYZ_DSM[0, 0:], XYZ_DSM[1, 0:], XYZ_DSM[2, 0:], 'k-', label='approximate line segment');
+#ax5.plot(XYZ_DSM[0, 0:], XYZ_DSM[1, 0:], XYZ_DSM[2, 0:], 'k-', label='approximate line segment');
 
 # true line
 ax5.plot(XYZ_true[0,0:],XYZ_true[1,0:],XYZ_true[2,0:],'b-',label='true line segment');
@@ -156,11 +156,11 @@ ax5.set_zlim(minZ-0.5, maxZ+0.5)
 ax5.set_xlabel("X coordinate [m]")
 ax5.set_ylabel("Y coordinate [m]")
 ax5.set_zlabel("Z coordinate [m]")
-ax5.legend(loc='lower left', bbox_to_anchor=(0.05,-0.1),fontsize=9)
+#ax5.legend(loc='lower left', bbox_to_anchor=(0.05,-0.1),fontsize=9)
 plt.subplots_adjust(bottom=0.3)
 plt.gcf().set_size_inches(11, 8)
 #plt.tight_layout()
-plt.savefig((foldername+'Simu_3D_data.png'), bbox_inches="tight", dpi=300)
+plt.savefig((foldername+'Simu_3D_data_true.png'), bbox_inches="tight", dpi=300)
 
 
 
